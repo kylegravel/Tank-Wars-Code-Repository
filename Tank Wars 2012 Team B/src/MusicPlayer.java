@@ -3,14 +3,12 @@ import java.applet.AudioClip;
 import java.net.*;
 import java.io.*;
  /*
-  FUCK YEAH! Real Music no more MIDI crap!
-  And no more Exception Crap.
   Albert Holtermann 10:46PM 10/20/2011
-  <3 AudioClip
   */
-public class MusicPlayer 
-{
+public class MusicPlayer {
 	AudioClip click;
+	
+	boolean isStopped = false; // Used in the mute() method below
 
 	public MusicPlayer(String m){ // m = the wav file that you want to be played.
 		URL urlClick = null;
@@ -33,5 +31,14 @@ public class MusicPlayer
 	public void l() { // use this instead of play to have a song looped
 		click.loop();
 	}
-}
+	public void mute() {
+		if (!isStopped) {
+			click.stop();
+			isStopped = true;
+		} else if (isStopped) {
+			click.play();
+			isStopped = false;
+		}
+	}		
 
+}

@@ -138,6 +138,8 @@ public class Game implements KeyListener {
     public boolean ControlsOverlayOpen = false;
     public boolean tutorialmode = false;
     public int GameSTATE=1; //determines what gameplay
+    public int tankExplosionLoop = 0; // Deals with the infinite explosion loop at the end of the game
+   
     //0=dynamic
     //1=turn based
     //3=restart game
@@ -1119,6 +1121,8 @@ public class Game implements KeyListener {
 		g.setColor(Color.white);
 		g.drawString("Press 'O' for options", 300, 575);
 		
+		g.drawString("Press 'M' to mute the music", 300, 588);
+		
 		//Wouldn't have worked without Zach K. Can't break out of while loops but can break out of if loops.
 		if (credits==1 && Credits.creditsOn && Credits.count < Credits.loop){// Draws credits
             Credits.draw(g); 
@@ -1196,39 +1200,69 @@ public class Game implements KeyListener {
 
     //Used to tell when to play sound... if not included sound repeats
     boolean EndingActive = false;
-    private void checkHealth(int health, Sprite player, Graphics g)//makes end of game screen.
-    {
-        if (health <= 0)
-        {
+    private void checkHealth (int health, Sprite player, Graphics g) {
+        
+        
+        if (health <= 0) {
+            
             int playerNumber = 2;
-            if (player.equals(Tank2.getTankSprite()))
+            if (player.equals(Tank2.getTankSprite())) {
                 playerNumber = 1;
-             Color c = new Color(1.0f, 1.0f, 1.0f, 0.6f);
+            }
+            Color c = new Color(1.0f, 1.0f, 1.0f, 0.6f);
             g.setColor(c);          
             g.fillRoundRect(260, 205, 250, 60, 15, 15); 
             g.setColor(Color.black);
-            g.drawImage(BOOM.getImage(), Math.round(player.getX() - 14), Math.round(player.getY() - 75), null);
+            int deathPositionX = Math.round(player.getX()-14);
+            int deathPositionY = Math.round(player.getY()-75);
+            
+            // This little piece of code checks if  the explosion animation has run its
+            // full course once.  If it has, it will stop drawing the image and then move
+            // the tank off the screen -- added by Wes B. 10-3-13
+            // tankKilled is a public int found at the top of Game.java, set initially to 0
+            
+            if (tankExplosionLoop < 18) {
+                g.drawImage(BOOM.getImage(), deathPositionX, deathPositionY, null);
+                tankExplosionLoop = tankExplosionLoop+1;
+            } else if (tankExplosionLoop >= 18) {
+                player.setX(1000);
+            }
+            
+            if (playerNumber == 1) {
+                Tank1.getTankSprite().setVelocityX(0.06f);
+                if (Tank1.getTankSprite().getX() > deathPositionX) {
+                    Tank1.getTankSprite().setVelocityX(0f);
+                }
+                g.setColor(Color.MAGENTA);
+                g.drawString("WINNER", (int)Tank1.getTankSprite().getX(), (int)Tank1.getTankSprite().getY()+5);
+            } else if (playerNumber == 2) {
+                Tank2.getTankSprite().setVelocityX(-0.06f);
+                if (Tank1.getTankSprite().getX() < deathPositionX) {
+                    Tank1.getTankSprite().setVelocityX(0f);
+                }
+                g.setColor(Color.CYAN);
+                g.drawString("WINNER", (int)Tank2.getTankSprite().getX(), (int)Tank2.getTankSprite().getY()+5);
+            }
             
             // Message that displays when game is over
+            g.setColor(Color.WHITE);
             g.drawString("GAME OVER: PLAYER " + playerNumber + " WINS",300,230);
             g.drawString("Press 'R' to play again", 310, 250);
             turn = 3; // When turn is equal to 3, neither player can go, this will prevent players from continuing to fire
-
              //Adds sounds after game
              if(playerNumber==1){ // Player 1 wins
                  String Ending[] = {"Winner1.wav", "1Winner2.wav", "toasty.wav", "salmonwin.wav", "herscowin.wav"};
                  int ran = (int)Math.floor((Math.random() * Ending.length));
                 String EndingNumber = Ending[ran];
-                 if(EndingActive == false){
-                     try
-                    {
-                    InputStream iStream = new FileInputStream(EndingNumber);
-                    AudioStream aStream = new AudioStream(iStream );
-                    AudioPlayer.player.start(aStream );
-                    }
-                    catch(Exception e)
-                    {
+                 if(EndingActive == false) {
+                    try {
+                        InputStream iStream = new FileInputStream(EndingNumber);
+                        AudioStream aStream = new AudioStream(iStream );
+                        AudioPlayer.player.start(aStream );
+                    } catch(Exception e) {
+                        
                     System.out.println(e);
+                    
                     }
                     EndingActive = true;
                  }
@@ -1253,7 +1287,9 @@ public class Game implements KeyListener {
              }
         }
             }
+        
     }
+ 
     
   //Creates the indentation if it hits land otherwise leaves Shot alone.
     private int good=0;
@@ -1449,8 +1485,8 @@ Mode 3 is Weapon Selection
            curfuel = 110; //Sets initial fuel value to equal 110
            Mode1 = 0; // Makes it so both tanks are back to default weapon when restared
            //This will give both tanks the same power when restarted
-           Tank1.setShotPower(0);
-           Tank2.setShotPower(0);
+           Tank1.setShotPower(30);
+           Tank2.setShotPower(30);
            
            //Reset ammo for each weapon back to full after restarting game
            Tank1.setSecondWeaponAmmo(2);
@@ -1484,6 +1520,10 @@ Mode 3 is Weapon Selection
              jumpUp = true;
           }
        }
+       
+       if (keyCode == KeyEvent.VK_M && !PauseMenuOpen) {
+		   music.mute();
+	   }
 
        if(!PauseMenuOpen)
        {
