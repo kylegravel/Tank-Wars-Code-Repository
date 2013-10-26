@@ -1,0 +1,9 @@
+<<<<<<< .mine
+<<<<<<< .mine
+Gravity .02f
+Wind 0
+Player1Health 200
+Player2Health 200
+Start 0
+player1Tank 0
+player2Tank 1
