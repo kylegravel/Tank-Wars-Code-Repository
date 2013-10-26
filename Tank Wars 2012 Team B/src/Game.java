@@ -1527,7 +1527,7 @@ Mode 3 is Weapon Selection
 
        if(!PauseMenuOpen)
        {
-            if(GameSTATE==0)//Dynamic Mode
+            /*if(GameSTATE==0)//Dynamic Mode
             {
               if (keyCode == KeyEvent.VK_1) { //add weapon
                   Tank1.setWeapon2(0);
@@ -1729,7 +1729,7 @@ Mode 3 is Weapon Selection
             }
             }
         
-            else if (GameSTATE==1)      // Fuel Turn-Based Mode
+            else*/ if (GameSTATE==1)      // Fuel Turn-Based Mode
             {
                 if (keyCode == KeyEvent.VK_T) 
                 {
