@@ -126,8 +126,8 @@ public class Game implements KeyListener {
     protected Sprite cloudDark2; //cloud dark
     protected Sprite cloudDark3; //cloud dark
     protected Sprite rainSprite;
-    
-    
+    protected Sprite herscoJetLeftSprite;
+    protected Sprite herscoJetRightSprite;
     
     //*******************
     ////Necessary Global Variables////
@@ -283,7 +283,8 @@ public class Game implements KeyListener {
         //Image rainImage = loadImage("images/rain.png");
         Image blake = loadImage("images/joker.png");
         Image smallblake = loadImage("images/smalljoker.png");
-        
+        Image herscoJetLeftImage = loadImage("herscoJetGoingLeft.png");
+        Image herscoJetRightImage = loadImage("herscoJetGoingRight.png");
         
         //Initiate Sounds
         soundShot = new SoundPlayer();
@@ -338,6 +339,11 @@ public class Game implements KeyListener {
         Animation cloudSun1 = new Animation();
         cloudSun1.addFrame(cloud1, 200);
         
+        Animation herscoJetLeftAnim = new Animation();
+        herscoJetLeftAnim.addFrame(herscoJetLeftImage, 200);
+        
+        Animation herscoJetRightAnim = new Animation();
+        herscoJetRightAnim.addFrame(herscoJetRightImage, 200);
         
         // Take the Image Frames and Create and Object(Sprite). Sprites have Attributes for locating its position, movement, and State. See Sprite.Java
 		  Tank1.setTankSprite(new Sprite(TankStill));
@@ -360,6 +366,8 @@ public class Game implements KeyListener {
 		  BOOM = new Sprite(blowUp);
 		  FourthTankShot = new Sprite(shoot5);//new weapon
 		  FourthTankShot2 = new Sprite(shoot5); 
+		  herscoJetLeftSprite = new Sprite(herscoJetLeftAnim);
+		  herscoJetRightSprite = new Sprite(herscoJetRightAnim);
     }
 
 
