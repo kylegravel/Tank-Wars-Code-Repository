@@ -209,7 +209,6 @@ public class Game implements KeyListener {
     int p2secondShots = 2;
     
     
-    //random terrain selector
     /*******************************************************
      *Added by Ryan K
      *Selects one of the terrains at random
@@ -280,11 +279,10 @@ public class Game implements KeyListener {
         Image cloud1 = loadImage("images/Cloud1.png");
         Image cloud2 = loadImage("images/Cloud2.png");
         Image cloud3 = loadImage("images/Cloud3.png");
-        //Image rainImage = loadImage("images/rain.png");
         Image blake = loadImage("images/joker.png");
         Image smallblake = loadImage("images/smalljoker.png");
-        Image herscoJetLeftImage = loadImage("herscoJetGoingLeft.png");
-        Image herscoJetRightImage = loadImage("herscoJetGoingRight.png");
+        Image herscoJetLeftImage = loadImage("images/herscoJetGoingLeft.png");
+        Image herscoJetRightImage = loadImage("images/herscoJetGoingRight.png");
         
         //Initiate Sounds
         soundShot = new SoundPlayer();
@@ -336,16 +334,18 @@ public class Game implements KeyListener {
         
         Animation bul5 = new Animation();
         bul5.addFrame(smallblake,200);
+        
         Animation cloudSun1 = new Animation();
         cloudSun1.addFrame(cloud1, 200);
         
         Animation herscoJetLeftAnim = new Animation();
-        herscoJetLeftAnim.addFrame(herscoJetLeftImage, 200);
+        herscoJetLeftAnim.addFrame(herscoJetLeftImage, 300);
         
         Animation herscoJetRightAnim = new Animation();
-        herscoJetRightAnim.addFrame(herscoJetRightImage, 200);
+        herscoJetRightAnim.addFrame(herscoJetRightImage, 300);
         
         // Take the Image Frames and Create and Object(Sprite). Sprites have Attributes for locating its position, movement, and State. See Sprite.Java
+        
 		  Tank1.setTankSprite(new Sprite(TankStill));
 		  Tank2.setTankSprite(new Sprite(TankStill2));
 		  Shot = new Sprite(bul);
@@ -707,7 +707,19 @@ public class Game implements KeyListener {
         ThirdTankShot2.update(elapsedTime);
         FourthTankShot.update(elapsedTime);
         FourthTankShot2.update(elapsedTime);
+        herscoJetLeftSprite.update(elapsedTime);
+        herscoJetRightSprite.update(elapsedTime);   
         
+        if (herscoJetRightSprite.getX() > 900) {
+			System.out.println("Off teh screen!");
+			hitTest=2;
+			herscoJetRightSprite=resetShot(herscoJetRightSprite,1);
+		}
+		if (herscoJetLeftSprite.getX() < -100) {
+			System.out.println("Off teh screen!");
+			hitTest2=2;
+			herscoJetLeftSprite=resetShot(herscoJetLeftSprite,2);
+		}
        
     }
     
@@ -893,23 +905,29 @@ public class Game implements KeyListener {
         checkHealth(Tank2.getHealth(), Tank2.getTankSprite(), g);
         
             //checks if bullet hit ground if it did creates hole and sets state=0
-            if (TankShot.getState()== 1)// if a shot has been fired   
+            if (TankShot.getState()== 1) { // if a shot has been fired   
                 fireShot(TankShot, g, 1,1);
-            else if (SecondaryTankShot.getState()== 1) // if a shot has been fired
+			} else if (SecondaryTankShot.getState()== 1) { // if a shot has been fired
                 fireShot(SecondaryTankShot, g, 2,1);
-            else if(ThirdTankShot.getState()==1)
+			} else if(ThirdTankShot.getState()==1) {
                 fireShot(ThirdTankShot, g, 3,1);
-            else if(FourthTankShot.getState()==1)
+            } else if(FourthTankShot.getState()==1) {
                 fireShot(FourthTankShot,g,5,1);
-            if (TankShot2.getState()== 1)// if a shot has been fired   
+            } else if (herscoJetLeftSprite.getState()==1) {
+				fireShot(herscoJetLeftSprite, g, 3, 2);
+			}
+			
+            if (TankShot2.getState()== 1) { // if a shot has been fired   
                 fireShot(TankShot2, g, 1,2);
-            else if (SecondaryTankShot2.getState()== 1) // if a shot has been fired
+            } else if (SecondaryTankShot2.getState()== 1) { // if a shot has been fired
                 fireShot(SecondaryTankShot2, g, 2,2);
-            else if(ThirdTankShot2.getState()==1)
+            } else if(ThirdTankShot2.getState()==1) {
                 fireShot(ThirdTankShot2, g, 3,2);
-            else if(FourthTankShot2.getState()==1);
+            } else if(FourthTankShot2.getState()==1) {
                 fireShot(FourthTankShot2, g, 5, 2);
-                
+            } else if(herscoJetRightSprite.getState()==1) {
+				fireShot(herscoJetRightSprite, g, 3, 1);
+            }
 
 
             //if player 1 fired checks to see what he fired and fires that shot.
@@ -1030,6 +1048,12 @@ public class Game implements KeyListener {
                     g.setColor(Color.black);
                     g.drawImage(FourthTankShot.getImage(), Math.round(FourthTankShot.getX()-66), Math.round(FourthTankShot.getY() - 150),null);
         }
+        else if(herscoJetLeftSprite.getState()==1)
+        {
+			g.setColor(Color.black);
+			g.drawImage(herscoJetLeftSprite.getImage(), Math.round(herscoJetLeftSprite.getX()-66), Math.round(herscoJetLeftSprite.getY() - 150),null);
+		}
+		
         if (TankShot2.getState()==1 )
         {
                     g.setColor(Color.black);
@@ -1053,6 +1077,11 @@ public class Game implements KeyListener {
                     g.setColor(Color.black);
                     g.drawImage(FourthTankShot2.getImage(), Math.round(FourthTankShot2.getX()-66), Math.round(FourthTankShot2.getY() - 150),null);
         }    
+        else if(herscoJetRightSprite.getState()==1)
+        {
+			g.setColor(Color.black);
+			g.drawImage(herscoJetRightSprite.getImage(), Math.round(herscoJetRightSprite.getX()-66), Math.round(herscoJetRightSprite.getY()-150),null);
+		}
   
 
       //tried making this more efficient and tank 2 shot always explodes right out of the turret
@@ -1857,7 +1886,7 @@ Mode 3 is Weapon Selection
                             }
                             else if(Tank1.getWeapon2()==2)
                             {
-                                ThirdTankShot.setState(1);
+                                herscoJetRightSprite.setState(1);
                             }
                             else if(Tank1.getWeapon2()==3)
                             {
@@ -1995,7 +2024,7 @@ Mode 3 is Weapon Selection
                             }
                             else if(Tank2.getWeapon2()== 2)
                             {
-                                ThirdTankShot2.setState(1);
+                                herscoJetLeftSprite.setState(1);
                             }
                             else if(Tank2.getWeapon2()== 3)
                             {
@@ -2496,20 +2525,23 @@ Mode 3 is Weapon Selection
         }
     if (player==1)
             {
-            g.drawImage(ThirdTankShot.getImage(), (int)(Tank2.getTankSprite().getX()), -200, null);
-            ThirdTankShot.setState(1);
-            ThirdTankShot.setX(Tank2.getTankSprite().getX());
-            
-            ThirdTankShot.setY(0);
-            ThirdTankShot.setVelocityY(.2f);
+            //g.drawImage(ThirdTankShot.getImage(), (int)(Tank2.getTankSprite().getX()), -200, null);
+            g.drawImage(herscoJetRightSprite.getImage(), (int)(Tank1.getTankSprite().getX()), -110, null);
+            herscoJetRightSprite.setState(1);
+            herscoJetRightSprite.setX(-100);
+            herscoJetRightSprite.setY(180);
+            herscoJetRightSprite.setVelocityX(0.3f);
+            System.out.println("Player 1 called in the Hersco Bomb!!!");
             }
-    else
+    else if (player==2)
             {
-            g.drawImage(ThirdTankShot2.getImage(),(int)(Tank1.getTankSprite().getX()), -200, null);
-            ThirdTankShot2.setState(1);
-            ThirdTankShot2.setX(Tank1.getTankSprite().getX());
-            ThirdTankShot2.setY(0);
-            ThirdTankShot2.setVelocityY(.2f);
+            //g.drawImage(ThirdTankShot2.getImage(),(int)(Tank1.getTankSprite().getX()), -200, null);
+            g.drawImage(herscoJetLeftSprite.getImage(), ((int)Tank2.getTankSprite().getX()), -110, null);
+            herscoJetLeftSprite.setState(1);
+            herscoJetLeftSprite.setX(900);
+            herscoJetLeftSprite.setY(180);
+            herscoJetLeftSprite.setVelocityX(-0.3f);
+            System.out.println("Player 2 called in the Hersco Bomb!!!");
             }
     }
     
