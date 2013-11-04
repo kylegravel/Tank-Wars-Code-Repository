@@ -31,13 +31,13 @@ public class Tank {
 	// sin holder
 	private double sin = 90;
 
-	private int secondWeaponAmmo = 2;
+	private int secondWeaponAmmo = 50;
 	
-	private int thirdWeaponAmmo = 1;
+	private int thirdWeaponAmmo = 50;
 	
-	private int fourthWeaponAmmo = 3;
+	private int fourthWeaponAmmo = 50;
 	
-	private int fifthWeaponAmmo = 1;
+	private int fifthWeaponAmmo = 50;
 
 	// getters/setters
 
