@@ -128,15 +128,15 @@ public class HelpScreen {
           //g.drawString("P1:",406,250);
           g.setFont(f);
 		  g.setColor(Color.black);
-          g.drawString("Up & Down Arrows",200,100);
+          g.drawString("A & D keys",200,100);
           //g.drawString("A, D",406,275);
-          g.drawString("Left & Right Arrows - Move Mode",200,125);
+          g.drawString("Left & Right Arrows",200,125);
           //g.drawString("W, S",406,300);
-          g.drawString("Left & Right Arrows - Turret Mode",200,150);
+          g.drawString("Q & E keys",200,150);
           //g.drawString("Q, E",406,325);
-          g.drawString("Left & Right Arrows - Power Mode",200,175);
+          g.drawString("1, 2, 4, and 4 keys",200,175);
           //g.drawString("1, 2, 3, 4, 5",406,350);
-		  g.drawString("Left & Right Arrows - Weapons Mode",200,200);
+		  g.drawString("1-Default Bomb 2-Homing Bomb 3-Hersco Bomb 4-Joker Bomb",200,200);
 		  g.drawString("Spacebar",200,225);
 		  //g.drawString("Capslock",406,375);
 		  //g.setColor(Color.RED);
@@ -144,11 +144,11 @@ public class HelpScreen {
           //g.drawString("P2:",511,250);
           g.setFont(f);
 		  g.setColor(Color.black);
-          g.drawString("Change Mode",475,100);
-   	   	  g.drawString("Move Tank",475,125);
-   	   	  g.drawString("Aim Turret",475,150);
-   	   	  g.drawString("Adjust Power",475,175);
-		  g.drawString("Switch Weapons",475,200); 
+          g.drawString("Move Tank",475,100);
+   	   	  g.drawString("Aim Turret",475,125);
+   	   	  g.drawString("Adjust Power",475,150);
+   	   	  g.drawString("Switch Weapons",475,175);
+		  g.drawString("",475,200); 
 		  g.drawString("Fire & End Turn",475,225); 
 		  
 		  

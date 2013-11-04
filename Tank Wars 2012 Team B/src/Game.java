@@ -796,8 +796,8 @@ public class Game implements KeyListener {
         Tank Tank = Tank1;
         if (turn == 2) Tank = Tank2;
         
-        if (Mode1 == 1 || Mode2 == 1)
-        {
+        //if (Mode1 == 1 || Mode2 == 1)
+        //{
 	        // don't touch the magic numbers!
 	        g.rotate(Tank.getAngle()*-0.018+1.625, Math.round(Tank.getTankSprite().getX())+(int)(Tank.getTankSprite().getWidth()*.5),
 	        		Math.round(Tank.getTankSprite().getY()));
@@ -806,7 +806,7 @@ public class Game implements KeyListener {
 	        		Math.round(Tank.getTankSprite().getX())+(int)(Tank.getTankSprite().getWidth()*.5),
 	        		Math.round(Tank.getTankSprite().getY())-800);
 	        g.setTransform(tr);
-        }
+        //}
         g.setColor(Color.black);
         g.drawLine(Math.round(Tank1.getTankSprite().getX())+(int)(Tank1.getTankSprite().getWidth()*.5),
         		Math.round(Tank1.getTankSprite().getY()),
@@ -1377,6 +1377,8 @@ Mode 3 is Weapon Selection
 1 = Nuclear
 2 = Hersco
 3 = Joker
+
+Modes for Tank 1 (first player) disabled 10/28/13
 */
     int Mode1 = 0; //Mode of the arrow keys controlled by up and down
     int M1i = 0;
@@ -1388,7 +1390,8 @@ Mode 3 is Weapon Selection
     int[] Modeindex2 = {0,1,2,3};
     int[] weapons2 = {0,1,2,3,4};
     int weaponindex2 = 0;
-    
+    boolean powerMode = false;
+	boolean moveMode = true;
  // song chosen from Help Screen
     String playlist[] = {"AnotherOneBitesTheDust.wav","BeautifulDisaster.wav",
    	 "Frankenstein.wav",
@@ -1527,209 +1530,7 @@ Mode 3 is Weapon Selection
 
        if(!PauseMenuOpen)
        {
-            /*if(GameSTATE==0)//Dynamic Mode
-            {
-              if (keyCode == KeyEvent.VK_1) { //add weapon
-                  Tank1.setWeapon2(0);
-              }
-              
-              if (keyCode == KeyEvent.VK_2) { //add weapon
-                  Tank1.setWeapon2(1);
-              }
-              
-              if (keyCode == KeyEvent.VK_3) {
-                  Tank1.setWeapon2(2);
-              }
-              if (keyCode == KeyEvent.VK_4) {
-                  Tank1.setWeapon2(3);
-              }
-              if (keyCode == KeyEvent.VK_5) {
-                  Tank1.setWeapon2(4);
-              }
-              
-              
-              if (keyCode == KeyEvent.VK_W) {
-                    Tank1.setShotPower(-.01f + Tank1.getShotPower());
-                    if (Tank1.getShotPower() <= -1) {
-                        Tank1.setShotPower(-1);
-                    }
-              }
-              
-              if (keyCode == KeyEvent.VK_S) {
-                    Tank1.setShotPower(.01f + Tank1.getShotPower());
-                    if (Tank1.getShotPower() >= -.01) {
-                        Tank1.setShotPower((float)-.01);
-                    }
-              }
-                
-              if (keyCode == KeyEvent.VK_A) {
-                    Tank1.increaseAngle();      
-              }
-              
-              if (keyCode == KeyEvent.VK_D) { 
-                    Tank1.decreaseAngle();      
-              }
-              
-              if (keyCode == KeyEvent.VK_Q) {   
-                    //if(Tank1.getMovesLeft()>0) {
-                        if (Tank1.getTankSprite().getX() >= 3){
-                            moving=true;
-                            Tank1.setMovesLeft(Tank1.getMovesLeft()-3);
-                            Tank1.getTankSprite().setX(Tank1.getTankSprite().getX()-3);
-                            jumpUp = false;
-                        }
-                    //}
-              }
-              
-              if (keyCode == KeyEvent.VK_E) {
-                    //if(Tank1.getMovesLeft()>0) {
-                        if (Tank1.getTankSprite().getX()+38 <= 796 )
-                            {moving=true;
-                                Tank1.setMovesLeft(Tank1.getMovesLeft()-3);
-                                Tank1.getTankSprite().setX(Tank1.getTankSprite().getX()+3);
-                                jumpUp = false;
-                        }
-                    //}
-              }
-              
-              if (keyCode == KeyEvent.VK_CAPS_LOCK)
-              {
-                  shotcounter2++;
-                  terrainChange = false;
-                  //Makes sure tank is no longer paralyzed
-                  if(shotcounter2 > PARALYZED){
-                    if (TankShot.getState() == 0 && SecondaryTankShot.getState() == 0 && ThirdTankShot.getState()==0 && FourthTankShot.getState()==0)
-                    {
-
-                        if(Tank1.getWeapon2()== 0){
-                            TankShot.setState(1);
-                            //soundShot.load("gunshot.mid");
-                            soundShot.play();
-                            }
-                        else if(Tank1.getWeapon2()== 1)
-                        {
-                            ////soundShot.load("gunshot.mid");
-                            soundShot.play();
-                            SecondaryTankShot.setState(1);
-                        }
-                        else if(Tank1.getWeapon2()==2)
-                        {
-                            ThirdTankShot.setState(1);
-                        }
-                        else if(Tank1.getWeapon2()==3)
-                        {
-                            FourthTankShot.setState(1);
-                        }
-                        tankshoot = 1;
-                    }
-                    e.consume(); //erases the key event.
-              }
-           }
-              
-              if (keyCode == KeyEvent.VK_K) { // add weapon
-                  Tank2.setWeapon2(0);
-              }
-              
-              if (keyCode == KeyEvent.VK_L) { //add weapon
-                  Tank2.setWeapon2(1);
-              }
-              
-              if (keyCode == KeyEvent.VK_SEMICOLON) {
-                  Tank2.setWeapon2(2);
-              }
-              
-              if (keyCode == KeyEvent.VK_QUOTE) {
-                  Tank2.setWeapon2(3);
-              }
-              if (keyCode == KeyEvent.VK_P) {
-                  Tank2.setWeapon2(4);
-              }
-              
-              if (keyCode == KeyEvent.VK_UP) {
-                    Tank2.setShotPower(-.01f + Tank2.getShotPower());
-                    if (Tank2.getShotPower() <= -1) {
-                        Tank2.setShotPower(-1);
-                    }
-              }
-              
-              if (keyCode == KeyEvent.VK_DOWN) {
-                    Tank2.setShotPower(.01f + Tank2.getShotPower());
-                    if (Tank2.getShotPower() >= -.01) {
-                        Tank2.setShotPower((float)-.01);
-                    }
-              }
-              
-              if (keyCode == KeyEvent.VK_LEFT) { 
-                    Tank2.increaseAngle();      
-              }
-              
-              if (keyCode == KeyEvent.VK_RIGHT) {
-                    Tank2.decreaseAngle();      
-              }
-              
-              if (keyCode == KeyEvent.VK_COMMA) {   
-                    //if(Tank2.getMovesLeft()>0) {
-                        if (Tank2.getTankSprite().getX() >= 3){
-                            moving=true;
-                            Tank2.setMovesLeft(Tank2.getMovesLeft()-3);
-                            Tank2.getTankSprite().setX(Tank2.getTankSprite().getX()-3);
-                            jumpUp = false;
-                        }
-                    //}
-              }
-              
-              if (keyCode == KeyEvent.VK_PERIOD) {
-                    //if(Tank2.getMovesLeft()>0) {
-                        if (Tank2.getTankSprite().getX()+38 <= 796 )
-                            {moving=true;
-                                Tank2.setMovesLeft(Tank2.getMovesLeft()-3);
-                                Tank2.getTankSprite().setX(Tank2.getTankSprite().getX()+3);
-                                jumpUp = false;
-                        }
-                    //}
-              }
-              
-              
-              if (keyCode == KeyEvent.VK_ENTER)
-              {
-                  shotcounter++;
-                  terrainChange = false;
-                  System.out.println(shotcounter);
-                  
-                  //Makes sure tank is no longer paralyzed
-                  if(shotcounter > PARALYZED){
-                      
-                    if (TankShot2.getState() == 0 && SecondaryTankShot2.getState() == 0 && ThirdTankShot2.getState()==0 && FourthTankShot2.getState()==0){
-
-
-                        if(Tank2.getWeapon2()== 0)
-                        {
-                            TankShot2.setState(1);
-                            //soundShot.load("gunshot.mid");
-                            soundShot.play();
-                        }
-                        else if(Tank2.getWeapon2()== 1)
-                        {
-                            //soundShot.load("gunshot.mid");
-                            soundShot.play();
-                            SecondaryTankShot2.setState(1);
-                        }
-                        else if(Tank2.getWeapon2()== 2)
-                        {
-                            ThirdTankShot2.setState(1);
-                        }
-                        else if (Tank2.getWeapon2()==3)
-                        {
-                            FourthTankShot2.setState(1);
-                        }
-                        tankshoot2 = 1;
-                    }
-                  e.consume(); //erases the key event.
-              } 
-            }
-            }
-        
-            else*/ if (GameSTATE==1)      // Fuel Turn-Based Mode
+            if (GameSTATE==1)      // Fuel Turn-Based Mode
             {
                 if (keyCode == KeyEvent.VK_T) 
                 {
@@ -1739,45 +1540,43 @@ Mode 3 is Weapon Selection
 
                 if (turn==1) // Player one's turn
                 {
-                  if (keyCode == KeyEvent.VK_UP) {
-                	  M1i++;
-                	  Mode1 = Modeindex1[((M1i))%4];
-                  }
                   
-                  if (keyCode == KeyEvent.VK_DOWN) {
-                	  M1i=M1i+3;
-                	  Mode1 = Modeindex1[((M1i))%4];
-                  }
                   
-                  if(Mode1==3){
-                    if (keyCode == KeyEvent.VK_RIGHT) { // Normal
-                    	weaponindex1=weaponindex1+1;
-                          Tank1.setWeapon2(weapons1[weaponindex1%4]);
-                    }
                   
-                    if (keyCode == KeyEvent.VK_LEFT) { // Nuclear Thing
-                    	weaponindex1=weaponindex1+3;
-                      Tank1.setWeapon2(weapons1[weaponindex1%4]);
-                    }
-                  }
+					if (keyCode == KeyEvent.VK_1) {
+						weaponindex1=0;
+					}else if (keyCode == KeyEvent.VK_2) {
+						weaponindex1=1;
+					}else if (keyCode == KeyEvent.VK_3) {
+						weaponindex1=2;
+					}else if (keyCode == KeyEvent.VK_4) {
+						weaponindex1=3;
+					}
+					Tank1.setWeapon2(weapons1[weaponindex1]);
+					
                     
-                  if (Mode1==2){
-                   if (keyCode == KeyEvent.VK_RIGHT) {
+                    
+                  
+                   if (keyCode == KeyEvent.VK_E) {
+				    moveMode = false;
+					powerMode = true;
                         Tank1.setShotPower(-.01f + Tank1.getShotPower());
                         if (Tank1.getShotPower() <= -1) {
                             Tank1.setShotPower(-1);
                         }
                    }
                   
-                   if (keyCode == KeyEvent.VK_LEFT) {
+                   if (keyCode == KeyEvent.VK_Q) {
+					moveMode = false;
+					powerMode = true;
                         Tank1.setShotPower(.01f + Tank1.getShotPower());
                         if (Tank1.getShotPower() >= -.01) {
                             Tank1.setShotPower((float)-.01);
                         }
                    }
-                  }
                   
-                  if (Mode1==1){
+                  
+                  
                    if (keyCode == KeyEvent.VK_LEFT) {
                             Tank1.increaseAngle();      
                     }
@@ -1785,11 +1584,12 @@ Mode 3 is Weapon Selection
                    if (keyCode == KeyEvent.VK_RIGHT) { 
                         Tank1.decreaseAngle();      
                    }
-                  }
-                  
-                  if (Mode1==0){
-                   if ((keyCode == KeyEvent.VK_LEFT) && (curfuel > 0)) {  //This will move the tank if the left key is pressed and fuel isn't empty.
+                 
+                   if ((keyCode == KeyEvent.VK_A) && (curfuel > 0)) {  //This will move the tank if the left key is pressed and fuel isn't empty.
                         //if(Tank1.getMovesLeft()>0) {
+						powerMode = false;
+						moveMode = true;
+						
                             if (Tank1.getTankSprite().getX() >= 3){
                                 System.out.println("Player 1's tank fuel is at: " + curfuel);
                                 moving=true;
@@ -1802,13 +1602,19 @@ Mode 3 is Weapon Selection
                    }
                   
                   
-                   if ((keyCode == KeyEvent.VK_LEFT) && (curfuel <= 0)) {  // If the left key is pressed and fuel is empty: Don't move
-                      moving = false;
+                   if ((keyCode == KeyEvent.VK_A) && (curfuel <= 0)) {  // If the left key is pressed and fuel is empty: Don't move
+                      powerMode = false;
+					  moveMode = true;
+					  
+					  moving = false;
                    }
                   
                   
-                   if ((keyCode == KeyEvent.VK_RIGHT) && (curfuel > 0)) {
+                   if ((keyCode == KeyEvent.VK_D) && (curfuel > 0)) {
                         //if(Tank1.getMovesLeft()>0) {
+						powerMode = false;
+						moveMode = true;
+
                             if (Tank1.getTankSprite().getX()<345){
                                     System.out.println("Player 1'S tank fuel is at: " + curfuel);
                                     moving=true;
@@ -1820,10 +1626,13 @@ Mode 3 is Weapon Selection
                         //}
                   }
                   
-                  if ((keyCode == KeyEvent.VK_RIGHT) && (curfuel <= 0)){
-                      moving = false;
+                  if ((keyCode == KeyEvent.VK_D) && (curfuel <= 0)){
+                      powerMode = false;
+					  moveMode = true;
+					  
+					  moving = false;
                   }
-                  }
+                  //}
                   
                   if (keyCode == KeyEvent.VK_SPACE) //When space is pressed, the turn will switch to the other player
                   {
@@ -1861,12 +1670,13 @@ Mode 3 is Weapon Selection
                         
                         
                   }
-
+					powerMode = false;
+					moveMode = true;
                       //resets both players' mode to move mode
-                      M1i = 0; 
-                      Mode1 = Modeindex1[M1i % 4]; 
-                      M2i = 0; 
-                      Mode2 = Modeindex2[M2i % 4]; 
+                      //M1i = 0; 
+                      //Mode1 = Modeindex1[M1i % 4]; 
+                      //M2i = 0; 
+                      //Mode2 = Modeindex2[M2i % 4]; 
                     //CountdownTimer.counterTimer.restart(); //restarts the timer
                     //CountdownTimer.counter=HelpScreen.time; //sets the timer to 30
                   }
@@ -1874,18 +1684,20 @@ Mode 3 is Weapon Selection
                 }
                 else if (turn==2) //Players two's turn
                 {
-                    if (keyCode == KeyEvent.VK_UP) {
-                    	M2i++;
-                  	  Mode2 = Modeindex2[((M2i))%4];
-                    }
                     
-                    if (keyCode == KeyEvent.VK_DOWN) {
-                    	M2i= M2i+3;
-                  	  Mode2 = Modeindex2[((M2i))%4];
-                    }
-                    
-                 if (Mode2==3){
-                    if (keyCode == KeyEvent.VK_LEFT) { // Normal
+                 //if (Mode2==3){
+                    if (keyCode == KeyEvent.VK_1) {
+						weaponindex2=0;
+					}else if (keyCode == KeyEvent.VK_2) {
+						weaponindex2=1;
+					}else if (keyCode == KeyEvent.VK_3) {
+						weaponindex2=2;
+					}else if (keyCode == KeyEvent.VK_4) {
+						weaponindex2=3;
+					}
+					Tank2.setWeapon2(weapons2[weaponindex2]);
+					
+					/*if (keyCode == KeyEvent.VK_LEFT) { // Normal
                     	weaponindex2=weaponindex2+3;
                       Tank2.setWeapon2(weapons2[weaponindex2%4]);
                       }
@@ -1893,26 +1705,30 @@ Mode 3 is Weapon Selection
                   if (keyCode == KeyEvent.VK_RIGHT) { // Nuclear Weapon
                 	  weaponindex2=weaponindex2+1;
                       Tank2.setWeapon2(weapons2[weaponindex2%4]);
-                  }
-                }
+                  }*/
+                //}
                   
-                if (Mode2==2) {
-                  if (keyCode == KeyEvent.VK_RIGHT) {
+                //if (Mode2==2) {
+                  if (keyCode == KeyEvent.VK_E) {
+						moveMode = false;
+						powerMode = true;
                         Tank2.setShotPower(-.01f + Tank2.getShotPower());
                         if (Tank2.getShotPower() <= -1) {
                             Tank2.setShotPower(-1);
                         }
                   }
                   
-                  if (keyCode == KeyEvent.VK_LEFT) {
+                  if (keyCode == KeyEvent.VK_Q) {
+						moveMode = false;
+						powerMode = true;
                         Tank2.setShotPower(.01f + Tank2.getShotPower());
                         if (Tank2.getShotPower() >= -.01) {
                             Tank2.setShotPower((float)-.01);
                         }
                   }
-                }
+                //}
                     
-                if (Mode2==1) {
+                //if (Mode2==1) {
                   if (keyCode == KeyEvent.VK_LEFT) { 
                         Tank2.increaseAngle();      
                     }
@@ -1920,11 +1736,13 @@ Mode 3 is Weapon Selection
                   if (keyCode == KeyEvent.VK_RIGHT) {
                         Tank2.decreaseAngle();      
                   }
-                }
+                //}
                   
-                if (Mode2==0) {
-                  if ((keyCode == KeyEvent.VK_LEFT) && (curfuel > 0)) {   //Makes it so tank can move when fuel isn't empty.
+                //if (Mode2==0) {
+                  if ((keyCode == KeyEvent.VK_A) && (curfuel > 0)) {   //Makes it so tank can move when fuel isn't empty.
                         //if(Tank2.getMovesLeft()>0) {
+							powerMode = false;
+							moveMode = true;
                             if (Tank2.getTankSprite().getX() >395){
                                 moving=true;
                                 Tank2.setMovesLeft(Tank2.getMovesLeft()-3);
@@ -1936,12 +1754,16 @@ Mode 3 is Weapon Selection
                         //}
                   }
                   
-                  if ((keyCode == KeyEvent.VK_LEFT) && (curfuel <= 0)) {
-                        moving = false;
+                  if ((keyCode == KeyEvent.VK_A) && (curfuel <= 0)) {
+                        powerMode = false;
+						moveMode = true;
+						moving = false;
                   }
                   
-                  if ((keyCode == KeyEvent.VK_RIGHT) && (curfuel > 0)) {
+                  if ((keyCode == KeyEvent.VK_D) && (curfuel > 0)) {
                         //if(Tank2.getMovesLeft()>0) {
+							powerMode = false;
+							moveMode = true;
                             if (Tank2.getTankSprite().getX()<= 796 ) {
                                     moving=true;
                                     Tank2.setMovesLeft(Tank2.getMovesLeft()-3);
@@ -1953,10 +1775,12 @@ Mode 3 is Weapon Selection
                         //}
                   }
                   
-                  if ((keyCode == KeyEvent.VK_RIGHT) && (curfuel <= 0)){
-                      moving = false;
+                  if ((keyCode == KeyEvent.VK_D) && (curfuel <= 0)){
+                      powerMode = false;
+					  moveMode = true;
+					  moving = false;
                   }
-                }
+                //}
                   
                   if (keyCode == KeyEvent.VK_SPACE)
                   {
@@ -1998,12 +1822,13 @@ Mode 3 is Weapon Selection
                         }
                       
                      } 
-
+					powerMode = false;
+					moveMode = true;
                     //resets both players' mode to move mode
-                      M1i = 0; 
-                      Mode1 = Modeindex1[M1i % 4]; 
-                      M2i = 0; 
-                      Mode2 = Modeindex2[M2i % 4]; 
+                      //M1i = 0; 
+                      //Mode1 = Modeindex1[M1i % 4]; 
+                      //M2i = 0; 
+                      //Mode2 = Modeindex2[M2i % 4]; 
                     //CountdownTimer.counterTimer.restart(); //restarts the timer
                     //CountdownTimer.counter=HelpScreen.time; //sets the timer to 30
                     
@@ -2133,8 +1958,9 @@ Mode 3 is Weapon Selection
         else if (barX > 675) barX = 675;
         
         int fuelBarValue = (int) (110 - curfuel);
-        if ((Mode1 == 0) && (Mode2 == 0))
-        {
+        //if ((Mode1 == 0) && (Mode2 == 0))
+        if(moveMode == true)
+		{
 	        g.drawImage(fuelIcon, barX-25, barY-7, null); // fuel icon
 	        g.drawImage(fuelBar, barX, barY, null); // Place fuel bar at specified part of the screen
 	        g.setColor(new Color( (fuel-curfuel)/(float)fuel * 0.5f,0,0) ); // Makes color behind fuel bar black
@@ -2157,7 +1983,8 @@ Mode 3 is Weapon Selection
         if (turn == 1) powerBarValue = (int) (Tank1.getShotPower() * -111);
         else if (turn == 2) powerBarValue = (int) (Tank2.getShotPower() * -111);
         
-        if ((Mode1 == 2) || (Mode2 == 2))
+        //if ((Mode1 == 2) || (Mode2 == 2))
+		if (powerMode == true)
         {
 	        g.drawImage(powerIcon, barX-28, barY-3, null); //power icon
 	        g.drawImage(powerBar, barX, barY, null); // power bar
@@ -2235,11 +2062,11 @@ Mode 3 is Weapon Selection
             g.drawString("Controls:", textAlignLeft, 140);
             g.setFont(f);
             g.setColor(Color.black);
-            g.drawString("Up and Down Arrows to change Mode.", textAlignLeft, 165);
-            g.drawString("Left & Right Arrows (Move Mode) to move.", textAlignLeft, 190);
-            g.drawString("Left & Right Arrows (Turret Mode) to aim.", textAlignLeft, 215);
-            g.drawString("Left & Right Arrows (Power Mode) to adjust power.",textAlignLeft, 240);
-            g.drawString("Left & Right Arrows (Weapons Mode) to switch weapon.", textAlignLeft, 265);
+            g.drawString("A: moves the tank left D: Moves the tank right", textAlignLeft, 165);
+            g.drawString("Left & Right Arrows to aim.", textAlignLeft, 190);
+            g.drawString("Q: decrease shot power E: increase shot power", textAlignLeft, 215);
+            g.drawString("Weapons: 1- Default Bomb 2-Homing Bomb",textAlignLeft, 240);
+            g.drawString("3- Hersco Bomb 4- Joker Bomb", textAlignLeft, 265);
             g.drawString("Spacebar to fire & end turn.", textAlignLeft, 290);
             g.setColor(Color.darkGray);
             g.setFont(new Font("SansSerif", Font.BOLD, 14));
@@ -2296,8 +2123,8 @@ Mode 3 is Weapon Selection
         
         g.drawImage(weaponIndicatorBG, -4, 60, null); // P1 Background
         g.drawImage(weaponIndicatorBG, 743, 60, null); // P2 Background
-        g.drawImage(modeBG, 638, 53, null); // P1 ModeBackground
-        g.drawImage(modeBG, 66, 53, null); // P2 ModeBackground
+        //g.drawImage(modeBG, 638, 53, null); // P1 ModeBackground
+        //g.drawImage(modeBG, 66, 53, null); // P2 ModeBackground
         
         for(int i=0; i<2; i++) { // for each of the two tanks
             
@@ -2368,10 +2195,10 @@ Mode 3 is Weapon Selection
             }
             
             if(currentTank==Tank1) { // For P1 side indicator
-                g.drawImage(modeindicator[mi], 77, 83, null);
+                //g.drawImage(modeindicator[mi], 77, 83, null);
             } 
             else{ // it's P2's Indicator
-                    g.drawImage(modeindicator[mi2], 650, 83, null);
+                    //g.drawImage(modeindicator[mi2], 650, 83, null);
                 }
            
         }
