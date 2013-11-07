@@ -2374,133 +2374,66 @@ Modes for Tank 1 (first player) disabled 10/28/13
     
     public void TankFire4(Graphics g,int player)
     {
-    
-        try
-        {
-        InputStream iStream = new FileInputStream("a.wav");//for sound
-        AudioStream aStream = new AudioStream(iStream );
-        AudioPlayer.player.start(aStream );
+		
+		//Input music    
+		try
+		{
+				InputStream iStream = new FileInputStream("a.wav");//for sound
+				AudioStream aStream = new AudioStream(iStream );
+				AudioPlayer.player.start(aStream );
         }
-        catch(Exception e)
+        
+		catch(Exception e)
         {
-        System.out.println(e);
+        	System.out.println(e);
         }
-    if (player==1)
-            {
-            g.drawImage(FourthTankShot.getImage(), (int)(Tank2.getTankSprite().getX()), -100, null);
-            FourthTankShot.setState(1);
-            FourthTankShot.setX(Tank2.getTankSprite().getX());
+        
+		//Sets variables for the velocity of the Joker Shotgun
+        float p1xveloc;
+        float p1yveloc;
+        float p2xveloc;
+        float p2yveloc;
+        
+		if (player==1)
+		{
             
-            FourthTankShot.setY(0);
-            FourthTankShot.setVelocityY(.25f);
-            }
-    else
-            {
-            g.drawImage(FourthTankShot2.getImage(),(int)(Tank1.getTankSprite().getX()), -100, null);
+			//TEST
+			//g.drawImage(FourthTankShot.getImage(), xcoord, ycoord, null);
+          
+			//changing Player1AngleX and Player1AngleY does nothing
+            
+			g.drawImage(FourthTankShot.getImage(), Tank1.getTurretAngleX(), Tank1.getTurretAngleY(), null);
+            FourthTankShot.setState(1);      
+            FourthTankShot.setX(Tank1.getTurretAngleX());
+            FourthTankShot.setY(Tank1.getTurretAngleY());
+            p1xveloc=(float)((-1)*Tank1.getShotPower()*Math.cos(Tank1.getAngle()/57.3));
+            p1yveloc=(float)(Tank1.getShotPower()*Math.sin(Tank1.getAngle()/57.3));
+            FourthTankShot.setVelocityX(p1xveloc); 
+            FourthTankShot.setVelocityY(p1yveloc); 
+            
+            //soundShot.load("gunshot.mid");
+            soundShot.play();
+            
+        }
+		else
+		{
+            //g.drawImage(TankShot.getImage(), 400, 400, null);
+            g.drawImage(FourthTankShot2.getImage(), Tank2.getTurretAngleX(), Tank2.getTurretAngleY(), null);
             FourthTankShot2.setState(1);
-            FourthTankShot2.setX(Tank1.getTankSprite().getX());
-            
-            FourthTankShot2.setY(0);
-            FourthTankShot2.setVelocityY(.25f);
-            }
+            FourthTankShot2.setX(Tank2.getTurretAngleX());
+            FourthTankShot2.setY(Tank2.getTurretAngleY());
+            p2xveloc=(float)((-1)*Tank2.getShotPower()*Math.cos(Tank2.getAngle()/57.3));
+            p2yveloc=(float)(Tank2.getShotPower()*Math.sin(Tank2.getAngle()/57.3));
+                
+            FourthTankShot2.setVelocityX(p2xveloc); //.7 //ANGLE Adjustment
+            FourthTankShot2.setVelocityY(p2yveloc); //.3 //POWER
+                
+                //soundShot.load("gunshot.mid");
+                soundShot.play();
+                
+		}
+		
     }
-    
-    
-        
-    // testing note: to make it testable the caseChecks have been added
-    public void DrawTerrain(Graphics g)
-        {   
-        double terrainHeight = Math.random()+3.42;
-        double terrainHeight2 = Math.random()+5;
-        int finalTerrain = Math.round((float)((terrainHeight2+terrainHeight)/2)*100);
-        terrainNum = finalTerrain;
-        int freq = Math.round((float)Math.random()*100);
-        
-        int t=15;
-        int tester=342;
-        boolean up = true;
-        double ang;
-        while (basex < 900)
-            {
-                if (t > 15)
-                {
-                    if(t < 90 )
-                    {
-                ang = (t/57.3);
-                tester = Math.abs((int)(Math.floor((Math.sin(ang))*freq)));
-                
-                //***********************************************************
-                //Added by Ryan K
-                freqValue = tester;
-                //***********************************************************
-                
-                caseChecks[0] = true;
-                //tester = Math.abs((int)(Math.floor((Math.sin(ang)*200))));
-                //changing 50 to higher # makes higher terrain and lower makes flatter
-                }
-            }
-            if (t > 90)
-                {
-                up=false;
-                caseChecks[1] = true;
-                }
-            if(t<15)
-            {up=true;}
-            if (topy[basex] == null)
-                {
-                    //***********************************************************
-                    //Added by Ryan K to call level function
-                    //***********************************************************
-                    level();
-                    //***********************************************************   
-                } 
-             if(levelNumber == "1" || levelNumber == "2" || levelNumber == "5")
-            {
-                Color terrainColor = new Color(0x5e3b1f);//Terrain Color Adjustment
-                
-                g.setColor(terrainColor);
-                g.drawImage(terrainTexture, 0, 400, null);
-
-            }
-            
-            //sunny
-            
-            if(levelNumber == "3" || levelNumber == "4")
-            {
-                Color terrainColor = new Color(0x5e3b1f);//Terrain Color Adjustment
-                //Image terrainTexture = loadImage("images/terrainGreen.jpg");
-                //g.drawImage(terrainTexture, 0, 400, null);
-                g.setColor(terrainColor);
-
-            }
-            g.drawLine(basex,basey,topx,topy[basex]);
-            basex++;
-            topx++;
-            if (up==true)
-                {
-                t++;
-                caseChecks[2] = true;
-                }
-            if(up==false)
-                {
-                t--;
-                caseChecks[3] = true;
-                }           
-            }
-        while (basex < 2000)
-            {
-            topy[basex]=342;//342
-            basex++;
-            caseChecks[4] = true;
-            }
-        basex=0;
-        basey=900;
-        topx=0;
-        // sets turret color
-        g.setColor(Color.gray);
-        caseChecks[6] = true;   
-        return;
-      }
      
       // new DrawTerrain() is below
       // I've added the testing lines to it, but as it generates a different terrain I think it should be turned into a new 
