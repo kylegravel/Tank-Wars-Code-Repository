@@ -265,9 +265,9 @@ public class Game implements KeyListener {
         TankImage = loadImage(DataClass.getP1Tank());
         Image TankImage2 = loadImage(DataClass.getP2Tank());
         Image Explode = loadImage("images/explosion.gif");
-        Image Bullet = loadImage("images/Bullet.jpg");
-        Image Bullet2 = loadImage("images/Bullet2.jpg");
-        Image Bullet3 = loadImage("images/Bullet3.jpg");
+        Image Bullet = loadImage("images/Bullet.JPG");
+        Image Bullet2 = loadImage("images/Bullet2.JPG");
+        Image Bullet3 = loadImage("images/Bullet3.JPG");
         Image lilBoom = loadImage("images/lilboom.gif");
         Image bomb = loadImage("images/newweapon1.png");
         Image bomb2 = loadImage("images/newweapon2.png");
@@ -710,13 +710,13 @@ public class Game implements KeyListener {
         herscoJetLeftSprite.update(elapsedTime);
         herscoJetRightSprite.update(elapsedTime);   
         
-        if (herscoJetRightSprite.getX() > 900) {
-			System.out.println("Off teh screen!");
+        if (herscoJetRightSprite.getX() == Tank2.getTankSprite().getX()) {
+			System.out.println("Over Tank2!!");
 			hitTest=2;
 			herscoJetRightSprite=resetShot(herscoJetRightSprite,1);
 		}
-		if (herscoJetLeftSprite.getX() < -100) {
-			System.out.println("Off teh screen!");
+		if (herscoJetLeftSprite.getX() == Tank1.getTankSprite().getX()) {
+			System.out.println("Over Tank1!!");
 			hitTest2=2;
 			herscoJetLeftSprite=resetShot(herscoJetLeftSprite,2);
 		}
@@ -2439,7 +2439,8 @@ Modes for Tank 1 (first player) disabled 10/28/13
       // I've added the testing lines to it, but as it generates a different terrain I think it should be turned into a new 
       // function.  
       
-        /*public void DrawTerrain2(Graphics g)
+        /*
+        public void DrawTerrain2(Graphics g)
         {   
         String enter = "DrawTerrain has been called!!";
         double terrainHeight = Math.random()+3.42;
@@ -2513,7 +2514,8 @@ Modes for Tank 1 (first player) disabled 10/28/13
         
         caseChecks[6] = true;
         return; 
-      }*/
+      }
+      * */
 
    //*******************************************************
     
@@ -2607,6 +2609,92 @@ Modes for Tank 1 (first player) disabled 10/28/13
      * Starts and stops the tank from falling, adjusts health, sets rotation 
      * angle for more realistic landings.
      */
+     
+     public void DrawTerrain(Graphics g) {
+        
+        double terrainHeight = Math.random()+3.42;
+        double terrainHeight2 = Math.random()+5;
+        int finalTerrain = Math.round((float)((terrainHeight2+terrainHeight)/2)*100);
+        terrainNum = finalTerrain;
+        int freq = Math.round((float)Math.random()*100);
+        int t = 15;
+        int tester = 342;
+        boolean up = true;
+        double ang;
+        while (basex < 900) {
+                if (t > 15) {
+                    if(t < 90) {
+                ang = (t/57.3);
+                tester = Math.abs((int)(Math.floor((Math.sin(ang))*freq)));
+                
+                //***********************************************************
+                //Added by Ryan K
+                freqValue = tester;
+                //***********************************************************
+                
+                caseChecks[0] = true;
+                //tester = Math.abs((int)(Math.floor((Math.sin(ang)*200))));
+                //changing 50 to higher # makes higher terrain and lower makes flatter
+                }
+            }
+            if (t > 90)
+                {
+                up = false;
+                caseChecks[1] = true;
+                }
+            if(t < 15) { up = true; }
+            
+            if (topy[basex] == null) {
+                    //***********************************************************
+                    //Added by Ryan K to call level function
+                    //***********************************************************
+                    level();
+                    //***********************************************************   
+            } 
+             if(levelNumber == "1" || levelNumber == "2" || levelNumber == "5") {
+                Color terrainColor = new Color(0x5e3b1f);//Terrain Color Adjustment
+                g.setColor(terrainColor);
+                g.drawImage(terrainTexture, 0, 400, null);
+
+            }
+            
+            //sunny
+            
+            if(levelNumber == "3" || levelNumber == "4") {
+                Color terrainColor = new Color(6175519); //Terrain Color Adjustment
+                //Image terrainTexture = loadImage("images/terrainGreen.jpg");
+                //g.drawImage(terrainTexture, 0, 400, null);
+                g.setColor(terrainColor);
+            }
+            
+            g.drawLine(basex,basey,topx,topy[basex]);
+            basex++;
+            topx++;
+            if (up==true)
+                {
+                t++;
+                caseChecks[2] = true;
+                }
+            if(up==false)
+                {
+                t--;
+                caseChecks[3] = true;
+                }           
+            }
+        while (basex < 2000)
+            {
+            topy[basex]=342;//342
+            basex++;
+            caseChecks[4] = true;
+            }
+        basex=0;
+        basey=900;
+        topx=0;
+        // sets turret color
+        g.setColor(Color.gray);
+        caseChecks[6] = true;   
+        return;
+      }
   
     public void GroundCollision(Sprite tank, int player)
     {           
