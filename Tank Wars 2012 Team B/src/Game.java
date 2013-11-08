@@ -711,15 +711,27 @@ public class Game implements KeyListener {
         herscoJetRightSprite.update(elapsedTime);   
         
         if (herscoJetRightSprite.getX() == Tank2.getTankSprite().getX()) {
-			System.out.println("Over Tank2!!");
+			// Drop the hersco bomb
+			System.out.println("Drop the Hersco bomb now");
+		}
+		if (herscoJetLeftSprite.getX() == Tank1.getTankSprite().getX()) {
+			// Drop the hersco bomb
+			System.out.println("Drop the Hersco bomb now");
+		}
+		
+        
+        
+        if (herscoJetRightSprite.getX() > 900) {
+			System.out.println("Hersco Jet went off the screen");
 			hitTest=2;
 			herscoJetRightSprite=resetShot(herscoJetRightSprite,1);
 		}
-		if (herscoJetLeftSprite.getX() == Tank1.getTankSprite().getX()) {
-			System.out.println("Over Tank1!!");
+		if (herscoJetLeftSprite.getX() < -100) {
+			System.out.println("Hersco Jet went off the screen");
 			hitTest2=2;
 			herscoJetLeftSprite=resetShot(herscoJetLeftSprite,2);
 		}
+		
        
     }
     
