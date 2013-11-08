@@ -565,27 +565,29 @@ public class Game implements KeyListener {
                 }
             }
 
-        if(TankShot.getState()==1)
-            {
+        if(TankShot.getState()==1) {
             TankShot.setVelocityX(TankShot.getVelocityX() - Windf); //WIND
             TankShot.setVelocityY(TankShot.getVelocityY() + (Gravf));   //Gravity
-            }
-        else if(SecondaryTankShot.getState()==1)
-            {
+		} else if(SecondaryTankShot.getState()==1) {
             SecondaryTankShot.setVelocityX(SecondaryTankShot.getVelocityX() - Windf); //WIND
             SecondaryTankShot.setVelocityY(SecondaryTankShot.getVelocityY() + (Gravf)); //Gravity
-            }
+        }
             
-        if(TankShot2.getState()==1)
-            {
+        if(TankShot2.getState()==1) {
             TankShot2.setVelocityX(TankShot2.getVelocityX() - Windf); //WIND
             TankShot2.setVelocityY(TankShot2.getVelocityY() + (Gravf)); //Gravity
-            }
-        else if(SecondaryTankShot2.getState()==1)
-            {
+        } else if(SecondaryTankShot2.getState()==1) {
             SecondaryTankShot2.setVelocityX(SecondaryTankShot2.getVelocityX() - Windf); //WIND
             SecondaryTankShot2.setVelocityY(SecondaryTankShot2.getVelocityY() + (Gravf));   //Gravity
-            }
+        }
+        
+        if(FourthTankShot.getState()==1) {
+            FourthTankShot.setVelocityX(FourthTankShot.getVelocityX() - Windf); //WIND
+            FourthTankShot.setVelocityY(FourthTankShot.getVelocityY() + (Gravf)); //Gravity
+        } else if(FourthTankShot2.getState()==1) {
+            FourthTankShot2.setVelocityX(FourthTankShot2.getVelocityX() - Windf); //WIND
+            FourthTankShot2.setVelocityY(FourthTankShot2.getVelocityY() + (Gravf));   //Gravity
+        }
 
         
         
