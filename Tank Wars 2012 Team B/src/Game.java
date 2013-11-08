@@ -476,6 +476,8 @@ public class Game implements KeyListener {
             }
             catch (InterruptedException ex) { }
         }   
+        
+        
           
     }
     
@@ -497,6 +499,7 @@ public class Game implements KeyListener {
             else 
                 currJump+=1;
         }
+        
         
         // needed for point test
         //if the tank shot goes off the screen, set the state to 0. UPDATED 4/5
@@ -708,16 +711,8 @@ public class Game implements KeyListener {
         FourthTankShot.update(elapsedTime);
         FourthTankShot2.update(elapsedTime);
         herscoJetLeftSprite.update(elapsedTime);
-        herscoJetRightSprite.update(elapsedTime);   
-        
-        if (herscoJetRightSprite.getX() == Tank2.getTankSprite().getX()) {
-			// Drop the hersco bomb
-			System.out.println("Drop the Hersco bomb now");
-		}
-		if (herscoJetLeftSprite.getX() == Tank1.getTankSprite().getX()) {
-			// Drop the hersco bomb
-			System.out.println("Drop the Hersco bomb now");
-		}
+        herscoJetRightSprite.update(elapsedTime);
+
 		
         
         
@@ -734,6 +729,13 @@ public class Game implements KeyListener {
 		
        
     }
+    
+    public boolean isWithin(Sprite jet, Sprite tankX) {
+		if (Math.abs(jet.getX() - tankX.getX()) < 8) {
+			return true;
+		}
+		return false;
+	}
     
     public boolean ShotCollision(Sprite tank, Sprite shot, int player) {        
         boolean ret = false; 
@@ -987,6 +989,14 @@ public class Game implements KeyListener {
                 }
             tankshoot++;
             }
+            
+            if (isWithin(herscoJetLeftSprite, Tank1.getTankSprite())) {
+			JetDrop(g, 2);
+		}
+		
+		if (isWithin(herscoJetRightSprite, Tank2.getTankSprite())) {
+			JetDrop(g, 1);
+		}
 
         
         
@@ -2351,17 +2361,7 @@ Modes for Tank 1 (first player) disabled 10/28/13
 
     public void TankFire3(Graphics g,int player)
     {
-    
-        try
-        {
-        InputStream iStream = new FileInputStream("hersco.wav");
-        AudioStream aStream = new AudioStream(iStream );
-        AudioPlayer.player.start(aStream );
-        }
-        catch(Exception e)
-        {
-        System.out.println(e);
-        }
+		
     if (player==1)
             {
             //g.drawImage(ThirdTankShot.getImage(), (int)(Tank2.getTankSprite().getX()), -200, null);
@@ -2381,6 +2381,29 @@ Modes for Tank 1 (first player) disabled 10/28/13
             herscoJetLeftSprite.setY(180);
             herscoJetLeftSprite.setVelocityX(-0.3f);
             System.out.println("Player 2 called in the Hersco Bomb!!!");
+            }
+    }
+    
+    public void JetDrop(Graphics g,int player)
+    {
+		
+    if (player==1)
+            {
+            g.drawImage(ThirdTankShot.getImage(), (int)(herscoJetRightSprite.getX()), (int)(herscoJetRightSprite.getY()), null);
+            ThirdTankShot.setState(1);
+            ThirdTankShot.setX(herscoJetRightSprite.getX());
+            ThirdTankShot.setY(herscoJetRightSprite.getY());
+            ThirdTankShot.setVelocityY(0.3f);
+            System.out.println("Dropping hersco bomb");
+            }
+    else if (player==2)
+            {
+            g.drawImage(ThirdTankShot2.getImage(), (int)(herscoJetLeftSprite.getX()), (int)(herscoJetLeftSprite.getY()), null);
+            ThirdTankShot2.setState(1);
+            ThirdTankShot2.setX(herscoJetLeftSprite.getX());
+            ThirdTankShot2.setY(herscoJetLeftSprite.getY());
+            ThirdTankShot2.setVelocityY(0.3f);
+            System.out.println("Dropping hersco bomb");
             }
     }
     
