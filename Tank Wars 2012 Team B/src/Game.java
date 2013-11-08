@@ -718,12 +718,12 @@ public class Game implements KeyListener {
         
         if (herscoJetRightSprite.getX() > 900) {
 			System.out.println("Hersco Jet went off the screen");
-			hitTest=2;
+			hitTest=1;
 			herscoJetRightSprite=resetShot(herscoJetRightSprite,1);
 		}
 		if (herscoJetLeftSprite.getX() < -100) {
 			System.out.println("Hersco Jet went off the screen");
-			hitTest2=2;
+			hitTest2=1;
 			herscoJetLeftSprite=resetShot(herscoJetLeftSprite,2);
 		}
 		
@@ -731,7 +731,7 @@ public class Game implements KeyListener {
     }
     
     public boolean isWithin(Sprite jet, Sprite tankX) {
-		if (Math.abs(jet.getX() - tankX.getX()) < 8) {
+		if (Math.abs(jet.getX() - tankX.getX()) < 15) {
 			return true;
 		}
 		return false;
@@ -2393,7 +2393,7 @@ Modes for Tank 1 (first player) disabled 10/28/13
             ThirdTankShot.setState(1);
             ThirdTankShot.setX(herscoJetRightSprite.getX());
             ThirdTankShot.setY(herscoJetRightSprite.getY());
-            ThirdTankShot.setVelocityY(0.3f);
+            ThirdTankShot.setVelocityY(0.2f);
             System.out.println("Dropping hersco bomb");
             }
     else if (player==2)
@@ -2402,7 +2402,7 @@ Modes for Tank 1 (first player) disabled 10/28/13
             ThirdTankShot2.setState(1);
             ThirdTankShot2.setX(herscoJetLeftSprite.getX());
             ThirdTankShot2.setY(herscoJetLeftSprite.getY());
-            ThirdTankShot2.setVelocityY(0.3f);
+            ThirdTankShot2.setVelocityY(0.2f);
             System.out.println("Dropping hersco bomb");
             }
     }
