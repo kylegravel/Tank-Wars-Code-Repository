@@ -2489,10 +2489,10 @@ Modes for Tank 1 (first player) disabled 10/28/13
 
         
 		//Sets variables for the velocity of the Joker Shotgun
-        float p1xveloc;
-        float p1yveloc;
-        float p2xveloc;
-        float p2yveloc;
+        //float p1xveloc;
+        //float p1yveloc;
+        //float p2xveloc;
+        //float p2yveloc;
         
 		if (player==1)
 		{
