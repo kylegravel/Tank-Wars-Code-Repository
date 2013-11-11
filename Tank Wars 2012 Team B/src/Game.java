@@ -763,9 +763,9 @@ public class Game implements KeyListener {
                 SecondaryTankShot2.setVelocityY(0.5f);
             }
         
-        if (ShotLowX > PlayerLowX||ShotHighX>PlayerLowX) {
+        if (ShotLowX-23 > PlayerLowX||ShotHighX+23>PlayerLowX) {
             if(ShotLowY> PlayerLowY) {         
-                if (ShotHighX < PlayerHighX||ShotLowX<PlayerHighX) {                        
+                if (ShotHighX+23 < PlayerHighX||ShotLowX-23<PlayerHighX) {                        
                     if (ShotLowY < PlayerHighY) {
                         CreateHole(shot,1, player);
                         ret = true;     
