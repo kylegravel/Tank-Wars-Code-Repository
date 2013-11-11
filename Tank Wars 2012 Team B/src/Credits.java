@@ -105,7 +105,11 @@ public class Credits extends JComponent {
     			 g.drawString("Programmer   --------- Zach Freed",x,(y+1070));
     			 
     			 //Insert New Names Here
-    			 
+    			 g.drawString("Fall 2013:" , x+65,(y + 1115));
+    			 g.drawString("Scrum Master --------- Wes Breisch" ,x,(y+1140));
+    			 g.drawString("Programmer   --------- Kyle Gravel",x,(y+1160));
+    			 g.drawString("Programmer   --------- Zach Baker",x,(y+1180));
+    			 g.drawString("Programmer   --------- Mike Eppich",x,(y+1200));
     			 if(loop-count>2)
     			 {
         			 g.setFont(new Font("SansSerif", Font.BOLD, 20));

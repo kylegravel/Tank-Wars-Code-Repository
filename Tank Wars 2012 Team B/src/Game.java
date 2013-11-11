@@ -265,9 +265,9 @@ public class Game implements KeyListener {
         TankImage = loadImage(DataClass.getP1Tank());
         Image TankImage2 = loadImage(DataClass.getP2Tank());
         Image Explode = loadImage("images/explosion.gif");
-        Image Bullet = loadImage("images/Bullet.jpg");
-        Image Bullet2 = loadImage("images/Bullet2.jpg");
-        Image Bullet3 = loadImage("images/Bullet3.jpg");
+        Image Bullet = loadImage("images/Bullet.JPG");
+        Image Bullet2 = loadImage("images/Bullet2.JPG");
+        Image Bullet3 = loadImage("images/Bullet3.JPG");
         Image lilBoom = loadImage("images/lilboom.gif");
         Image bomb = loadImage("images/newweapon1.png");
         Image bomb2 = loadImage("images/newweapon2.png");
@@ -476,6 +476,8 @@ public class Game implements KeyListener {
             }
             catch (InterruptedException ex) { }
         }   
+        
+        
           
     }
     
@@ -497,6 +499,7 @@ public class Game implements KeyListener {
             else 
                 currJump+=1;
         }
+        
         
         // needed for point test
         //if the tank shot goes off the screen, set the state to 0. UPDATED 4/5
@@ -562,27 +565,29 @@ public class Game implements KeyListener {
                 }
             }
 
-        if(TankShot.getState()==1)
-            {
+        if(TankShot.getState()==1) {
             TankShot.setVelocityX(TankShot.getVelocityX() - Windf); //WIND
             TankShot.setVelocityY(TankShot.getVelocityY() + (Gravf));   //Gravity
-            }
-        else if(SecondaryTankShot.getState()==1)
-            {
+		} else if(SecondaryTankShot.getState()==1) {
             SecondaryTankShot.setVelocityX(SecondaryTankShot.getVelocityX() - Windf); //WIND
             SecondaryTankShot.setVelocityY(SecondaryTankShot.getVelocityY() + (Gravf)); //Gravity
-            }
+        }
             
-        if(TankShot2.getState()==1)
-            {
+        if(TankShot2.getState()==1) {
             TankShot2.setVelocityX(TankShot2.getVelocityX() - Windf); //WIND
             TankShot2.setVelocityY(TankShot2.getVelocityY() + (Gravf)); //Gravity
-            }
-        else if(SecondaryTankShot2.getState()==1)
-            {
+        } else if(SecondaryTankShot2.getState()==1) {
             SecondaryTankShot2.setVelocityX(SecondaryTankShot2.getVelocityX() - Windf); //WIND
             SecondaryTankShot2.setVelocityY(SecondaryTankShot2.getVelocityY() + (Gravf));   //Gravity
-            }
+        }
+        
+        if(FourthTankShot.getState()==1) {
+            FourthTankShot.setVelocityX(FourthTankShot.getVelocityX() - Windf); //WIND
+            FourthTankShot.setVelocityY(FourthTankShot.getVelocityY() + (Gravf)); //Gravity
+        } else if(FourthTankShot2.getState()==1) {
+            FourthTankShot2.setVelocityX(FourthTankShot2.getVelocityX() - Windf); //WIND
+            FourthTankShot2.setVelocityY(FourthTankShot2.getVelocityY() + (Gravf));   //Gravity
+        }
 
         
         
@@ -708,20 +713,31 @@ public class Game implements KeyListener {
         FourthTankShot.update(elapsedTime);
         FourthTankShot2.update(elapsedTime);
         herscoJetLeftSprite.update(elapsedTime);
-        herscoJetRightSprite.update(elapsedTime);   
+        herscoJetRightSprite.update(elapsedTime);
+
+		
+        
         
         if (herscoJetRightSprite.getX() > 900) {
-			System.out.println("Off teh screen!");
-			hitTest=2;
+			System.out.println("Hersco Jet went off the screen");
+			hitTest=1;
 			herscoJetRightSprite=resetShot(herscoJetRightSprite,1);
 		}
 		if (herscoJetLeftSprite.getX() < -100) {
-			System.out.println("Off teh screen!");
-			hitTest2=2;
+			System.out.println("Hersco Jet went off the screen");
+			hitTest2=1;
 			herscoJetLeftSprite=resetShot(herscoJetLeftSprite,2);
 		}
+		
        
     }
+    
+    public boolean isWithin(Sprite jet, Sprite tankX) {
+		if (Math.abs(jet.getX() - tankX.getX()) < 15) {
+			return true;
+		}
+		return false;
+	}
     
     public boolean ShotCollision(Sprite tank, Sprite shot, int player) {        
         boolean ret = false; 
@@ -747,9 +763,9 @@ public class Game implements KeyListener {
                 SecondaryTankShot2.setVelocityY(0.5f);
             }
         
-        if (ShotLowX > PlayerLowX||ShotHighX>PlayerLowX) {
+        if (ShotLowX-23 > PlayerLowX||ShotHighX+23>PlayerLowX) {
             if(ShotLowY> PlayerLowY) {         
-                if (ShotHighX < PlayerHighX||ShotLowX<PlayerHighX) {                        
+                if (ShotHighX+23 < PlayerHighX||ShotLowX-23<PlayerHighX) {                        
                     if (ShotLowY < PlayerHighY) {
                         CreateHole(shot,1, player);
                         ret = true;     
@@ -977,6 +993,14 @@ public class Game implements KeyListener {
                 }
             tankshoot++;
             }
+            
+            if (isWithin(herscoJetLeftSprite, Tank1.getTankSprite())) {
+			JetDrop(g, 2);
+		}
+		
+		if (isWithin(herscoJetRightSprite, Tank2.getTankSprite())) {
+			JetDrop(g, 1);
+		}
 
         
         
@@ -2341,17 +2365,7 @@ Modes for Tank 1 (first player) disabled 10/28/13
 
     public void TankFire3(Graphics g,int player)
     {
-    
-        try
-        {
-        InputStream iStream = new FileInputStream("hersco.wav");
-        AudioStream aStream = new AudioStream(iStream );
-        AudioPlayer.player.start(aStream );
-        }
-        catch(Exception e)
-        {
-        System.out.println(e);
-        }
+		
     if (player==1)
             {
             //g.drawImage(ThirdTankShot.getImage(), (int)(Tank2.getTankSprite().getX()), -200, null);
@@ -2374,7 +2388,29 @@ Modes for Tank 1 (first player) disabled 10/28/13
             }
     }
     
-    //Joker Shotgun
+    public void JetDrop(Graphics g,int player)
+    {
+		
+    if (player==1)
+            {
+            g.drawImage(ThirdTankShot.getImage(), (int)(herscoJetRightSprite.getX()), (int)(herscoJetRightSprite.getY()), null);
+            ThirdTankShot.setState(1);
+            ThirdTankShot.setX(herscoJetRightSprite.getX());
+            ThirdTankShot.setY(herscoJetRightSprite.getY());
+            ThirdTankShot.setVelocityY(0.2f);
+            System.out.println("Dropping hersco bomb");
+            }
+    else if (player==2)
+            {
+            g.drawImage(ThirdTankShot2.getImage(), (int)(herscoJetLeftSprite.getX()), (int)(herscoJetLeftSprite.getY()), null);
+            ThirdTankShot2.setState(1);
+            ThirdTankShot2.setX(herscoJetLeftSprite.getX());
+            ThirdTankShot2.setY(herscoJetLeftSprite.getY());
+            ThirdTankShot2.setVelocityY(0.2f);
+            System.out.println("Dropping hersco bomb");
+            }
+    }
+    
     public void TankFire4(Graphics g,int player)
     {
 
@@ -2438,140 +2474,73 @@ Modes for Tank 1 (first player) disabled 10/28/13
         }
 
     	/***************************
-        try
-        {
-        InputStream iStream = new FileInputStream("a.wav");//for sound
-        AudioStream aStream = new AudioStream(iStream );
-        AudioPlayer.player.start(aStream );
+		try
+		{
+				InputStream iStream = new FileInputStream("a.wav");//for sound
+				AudioStream aStream = new AudioStream(iStream );
+				AudioPlayer.player.start(aStream );
         }
-        catch(Exception e)
+        
+		catch(Exception e)
         {
-        System.out.println(e);
+        	System.out.println(e);
         }
-    if (player==1)
-            {
-            g.drawImage(FourthTankShot.getImage(), (int)(Tank2.getTankSprite().getX()), -100, null);
-            FourthTankShot.setState(1);
-            FourthTankShot.setX(Tank2.getTankSprite().getX());
-            
-            FourthTankShot.setY(0);
-            FourthTankShot.setVelocityY(.25f);
-            }
-    else
-            {
-            g.drawImage(FourthTankShot2.getImage(),(int)(Tank1.getTankSprite().getX()), -100, null);
-            FourthTankShot2.setState(1);
-            FourthTankShot2.setX(Tank1.getTankSprite().getX());
-            
-            FourthTankShot2.setY(0);
-            FourthTankShot2.setVelocityY(.25f);
-            }
 	******************************/
 
+        
+		//Sets variables for the velocity of the Joker Shotgun
+        float p1xveloc;
+        float p1yveloc;
+        float p2xveloc;
+        float p2yveloc;
+        
+		if (player==1)
+		{
+            
+			//TEST
+			//g.drawImage(FourthTankShot.getImage(), xcoord, ycoord, null);
+          
+			//changing Player1AngleX and Player1AngleY does nothing
+            
+			g.drawImage(FourthTankShot.getImage(), Tank1.getTurretAngleX(), Tank1.getTurretAngleY(), null);
+            FourthTankShot.setState(1);      
+            FourthTankShot.setX(Tank1.getTurretAngleX());
+            FourthTankShot.setY(Tank1.getTurretAngleY());
+            p1xveloc=(float)((-1)*Tank1.getShotPower()*Math.cos(Tank1.getAngle()/57.3));
+            p1yveloc=(float)(Tank1.getShotPower()*Math.sin(Tank1.getAngle()/57.3));
+            FourthTankShot.setVelocityX(p1xveloc); 
+            FourthTankShot.setVelocityY(p1yveloc); 
+            
+            //soundShot.load("gunshot.mid");
+            soundShot.play();
+            
+        }
+		else
+		{
+            //g.drawImage(TankShot.getImage(), 400, 400, null);
+            g.drawImage(FourthTankShot2.getImage(), Tank2.getTurretAngleX(), Tank2.getTurretAngleY(), null);
+            FourthTankShot2.setState(1);
+            FourthTankShot2.setX(Tank2.getTurretAngleX());
+            FourthTankShot2.setY(Tank2.getTurretAngleY());
+            p2xveloc=(float)((-1)*Tank2.getShotPower()*Math.cos(Tank2.getAngle()/57.3));
+            p2yveloc=(float)(Tank2.getShotPower()*Math.sin(Tank2.getAngle()/57.3));
+                
+            FourthTankShot2.setVelocityX(p2xveloc); //.7 //ANGLE Adjustment
+            FourthTankShot2.setVelocityY(p2yveloc); //.3 //POWER
+                
+                //soundShot.load("gunshot.mid");
+                soundShot.play();
+                
+		}
+		
     }
-    
-    
-        
-    // testing note: to make it testable the caseChecks have been added
-    public void DrawTerrain(Graphics g)
-        {   
-        double terrainHeight = Math.random()+3.42;
-        double terrainHeight2 = Math.random()+5;
-        int finalTerrain = Math.round((float)((terrainHeight2+terrainHeight)/2)*100);
-        terrainNum = finalTerrain;
-        int freq = Math.round((float)Math.random()*100);
-        
-        int t=15;
-        int tester=342;
-        boolean up = true;
-        double ang;
-        while (basex < 900)
-            {
-                if (t > 15)
-                {
-                    if(t < 90 )
-                    {
-                ang = (t/57.3);
-                tester = Math.abs((int)(Math.floor((Math.sin(ang))*freq)));
-                
-                //***********************************************************
-                //Added by Ryan K
-                freqValue = tester;
-                //***********************************************************
-                
-                caseChecks[0] = true;
-                //tester = Math.abs((int)(Math.floor((Math.sin(ang)*200))));
-                //changing 50 to higher # makes higher terrain and lower makes flatter
-                }
-            }
-            if (t > 90)
-                {
-                up=false;
-                caseChecks[1] = true;
-                }
-            if(t<15)
-            {up=true;}
-            if (topy[basex] == null)
-                {
-                    //***********************************************************
-                    //Added by Ryan K to call level function
-                    //***********************************************************
-                    level();
-                    //***********************************************************   
-                } 
-             if(levelNumber == "1" || levelNumber == "2" || levelNumber == "5")
-            {
-                Color terrainColor = new Color(0x5e3b1f);//Terrain Color Adjustment
-                
-                g.setColor(terrainColor);
-                g.drawImage(terrainTexture, 0, 400, null);
-
-            }
-            
-            //sunny
-            
-            if(levelNumber == "3" || levelNumber == "4")
-            {
-                Color terrainColor = new Color(0x5e3b1f);//Terrain Color Adjustment
-                //Image terrainTexture = loadImage("images/terrainGreen.jpg");
-                //g.drawImage(terrainTexture, 0, 400, null);
-                g.setColor(terrainColor);
-
-            }
-            g.drawLine(basex,basey,topx,topy[basex]);
-            basex++;
-            topx++;
-            if (up==true)
-                {
-                t++;
-                caseChecks[2] = true;
-                }
-            if(up==false)
-                {
-                t--;
-                caseChecks[3] = true;
-                }           
-            }
-        while (basex < 2000)
-            {
-            topy[basex]=342;//342
-            basex++;
-            caseChecks[4] = true;
-            }
-        basex=0;
-        basey=900;
-        topx=0;
-        // sets turret color
-        g.setColor(Color.gray);
-        caseChecks[6] = true;   
-        return;
-      }
      
       // new DrawTerrain() is below
       // I've added the testing lines to it, but as it generates a different terrain I think it should be turned into a new 
       // function.  
       
-        /*public void DrawTerrain2(Graphics g)
+        /*
+        public void DrawTerrain2(Graphics g)
         {   
         String enter = "DrawTerrain has been called!!";
         double terrainHeight = Math.random()+3.42;
@@ -2645,7 +2614,8 @@ Modes for Tank 1 (first player) disabled 10/28/13
         
         caseChecks[6] = true;
         return; 
-      }*/
+      }
+      * */
 
    //*******************************************************
     
@@ -2739,6 +2709,92 @@ Modes for Tank 1 (first player) disabled 10/28/13
      * Starts and stops the tank from falling, adjusts health, sets rotation 
      * angle for more realistic landings.
      */
+     
+     public void DrawTerrain(Graphics g) {
+        
+        double terrainHeight = Math.random()+3.42;
+        double terrainHeight2 = Math.random()+5;
+        int finalTerrain = Math.round((float)((terrainHeight2+terrainHeight)/2)*100);
+        terrainNum = finalTerrain;
+        int freq = Math.round((float)Math.random()*100);
+        int t = 15;
+        int tester = 342;
+        boolean up = true;
+        double ang;
+        while (basex < 900) {
+                if (t > 15) {
+                    if(t < 90) {
+                ang = (t/57.3);
+                tester = Math.abs((int)(Math.floor((Math.sin(ang))*freq)));
+                
+                //***********************************************************
+                //Added by Ryan K
+                freqValue = tester;
+                //***********************************************************
+                
+                caseChecks[0] = true;
+                //tester = Math.abs((int)(Math.floor((Math.sin(ang)*200))));
+                //changing 50 to higher # makes higher terrain and lower makes flatter
+                }
+            }
+            if (t > 90)
+                {
+                up = false;
+                caseChecks[1] = true;
+                }
+            if(t < 15) { up = true; }
+            
+            if (topy[basex] == null) {
+                    //***********************************************************
+                    //Added by Ryan K to call level function
+                    //***********************************************************
+                    level();
+                    //***********************************************************   
+            } 
+             if(levelNumber == "1" || levelNumber == "2" || levelNumber == "5") {
+                Color terrainColor = new Color(0x5e3b1f);//Terrain Color Adjustment
+                g.setColor(terrainColor);
+                g.drawImage(terrainTexture, 0, 400, null);
+
+            }
+            
+            //sunny
+            
+            if(levelNumber == "3" || levelNumber == "4") {
+                Color terrainColor = new Color(6175519); //Terrain Color Adjustment
+                //Image terrainTexture = loadImage("images/terrainGreen.jpg");
+                //g.drawImage(terrainTexture, 0, 400, null);
+                g.setColor(terrainColor);
+            }
+            
+            g.drawLine(basex,basey,topx,topy[basex]);
+            basex++;
+            topx++;
+            if (up==true)
+                {
+                t++;
+                caseChecks[2] = true;
+                }
+            if(up==false)
+                {
+                t--;
+                caseChecks[3] = true;
+                }           
+            }
+        while (basex < 2000)
+            {
+            topy[basex]=342;//342
+            basex++;
+            caseChecks[4] = true;
+            }
+        basex=0;
+        basey=900;
+        topx=0;
+        // sets turret color
+        g.setColor(Color.gray);
+        caseChecks[6] = true;   
+        return;
+      }
   
     public void GroundCollision(Sprite tank, int player)
     {           
