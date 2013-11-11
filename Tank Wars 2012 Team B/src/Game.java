@@ -629,11 +629,11 @@ public class Game implements KeyListener {
        else if(FourthTankShot.getState()==1)
        {
            if (ShotCollision(Tank1.getTankSprite(), FourthTankShot,1)) {
-               Tank1.setHealth(Tank1.getHealth()-50);  //subtract 50
+               Tank1.setHealth(Tank1.getHealth()-25);  //subtract 25
                hitTest=2;
            }
            if (ShotCollision(Tank2.getTankSprite(), FourthTankShot,1)) {
-               Tank2.setHealth(Tank2.getHealth()-50);  //subtract 50
+               Tank2.setHealth(Tank2.getHealth()-25);  //subtract 25
                hitTest=2;
             }
        }
@@ -682,11 +682,11 @@ public class Game implements KeyListener {
          else if(FourthTankShot2.getState()==1)
          {
                if (ShotCollision(Tank1.getTankSprite(), FourthTankShot2,2)) {
-                   Tank1.setHealth(Tank1.getHealth()-50);   //subtract 50
+                   Tank1.setHealth(Tank1.getHealth()-25);   //subtract 50
                    hitTest=2;
                }
                if (ShotCollision(Tank2.getTankSprite(), FourthTankShot2,2)) {
-                   Tank2.setHealth(Tank2.getHealth()-50);   //subtract 50
+                   Tank2.setHealth(Tank2.getHealth()-25);   //subtract 50
                    hitTest=2;
                 }
          }
@@ -863,7 +863,8 @@ public class Game implements KeyListener {
 
     	
         g.setColor(Color.GRAY);
-        
+            
+            //Tank 1
             if(Tank1.getWeapon2() == 0)
             {
                 g.drawImage(Shot.getImage(), 8, 10, null);
@@ -880,6 +881,7 @@ public class Game implements KeyListener {
             {
                 g.drawImage(FourthShot.getImage(),0,0,null);
             }
+            //Tank2
             if(Tank2.getWeapon2() == 0)
             {
                 g.drawImage(Shot2.getImage(), 516, 10, null);
@@ -2372,9 +2374,70 @@ Modes for Tank 1 (first player) disabled 10/28/13
             }
     }
     
+    //Joker Shotgun
     public void TankFire4(Graphics g,int player)
     {
-    
+
+    //Input music    
+	try
+        {
+        	InputStream iStream = new FileInputStream("a.wav");//for sound
+        	AudioStream aStream = new AudioStream(iStream );
+        	AudioPlayer.player.start(aStream );
+        }
+        catch(Exception e)
+        {
+        	System.out.println(e);
+        }
+
+        //Sets variables for the velocity of the Joker Shotgun
+        float p1xveloc;
+        float p1yveloc;
+        float p2xveloc;
+        float p2yveloc;
+        
+	if (player==1)
+    {
+            
+            //TEST
+            //g.drawImage(FourthTankShot.getImage(), xcoord, ycoord, null);
+            
+            //changing Player1AngleX and Player1AngleY does nothing
+            
+
+            g.drawImage(FourthTankShot.getImage(), Tank1.getTurretAngleX(), Tank1.getTurretAngleY(), null);
+            FourthTankShot.setState(1);      
+            FourthTankShot.setX(Tank1.getTurretAngleX());
+            FourthTankShot.setY(Tank1.getTurretAngleY());
+            p1xveloc=(float)((-1)*Tank1.getShotPower()*Math.cos(Tank1.getAngle()/57.3));
+            p1yveloc=(float)(Tank1.getShotPower()*Math.sin(Tank1.getAngle()/57.3));
+
+            FourthTankShot.setVelocityX(p1xveloc); 
+            FourthTankShot.setVelocityY(p1yveloc); 
+            
+            //soundShot.load("gunshot.mid");
+            soundShot.play();
+            
+            }
+    else
+    {
+            //g.drawImage(TankShot.getImage(), 400, 400, null);
+            g.drawImage(FourthTankShot2.getImage(), Tank2.getTurretAngleX(), Tank2.getTurretAngleY(), null);
+            FourthTankShot2.setState(1);
+            FourthTankShot2.setX(Tank2.getTurretAngleX());
+            FourthTankShot2.setY(Tank2.getTurretAngleY());
+            p2xveloc=(float)((-1)*Tank2.getShotPower()*Math.cos(Tank2.getAngle()/57.3));
+            p2yveloc=(float)(Tank2.getShotPower()*Math.sin(Tank2.getAngle()/57.3));
+                
+            FourthTankShot2.setVelocityX(p2xveloc); //.7 //ANGLE Adjustment
+            FourthTankShot2.setVelocityY(p2yveloc); //.3 //POWER
+                
+                //soundShot.load("gunshot.mid");
+                soundShot.play();
+                
+        }
+
+    	/***************************
         try
         {
         InputStream iStream = new FileInputStream("a.wav");//for sound
@@ -2403,6 +2466,8 @@ Modes for Tank 1 (first player) disabled 10/28/13
             FourthTankShot2.setY(0);
             FourthTankShot2.setVelocityY(.25f);
             }
+	******************************/
+
     }
     
     
