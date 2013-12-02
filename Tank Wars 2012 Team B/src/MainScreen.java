@@ -173,17 +173,17 @@ public class MainScreen {
    		g.setFont(new Font("SansSerif", Font.BOLD, 15));
    		
 		  g.setColor(Color.black);
-          g.drawString("Space Bar To Start",350,400);
+          g.drawString("Space Bar To Start",350, 350);
           g.setFont(f);
           g.setFont(new Font("SansSerif", Font.BOLD, 15));
-          g.drawString("(H) Help Screen",350,435);
+          g.drawString("(H) Help Screen",350,385);
           g.setFont(f);
    	   	  //g.drawString("Press O for Options",260,448);
    	   	  
    	   	  
 		  g.setColor(Color.black);
 		  g.setFont(new Font("SansSerif", Font.BOLD, 15));
-   	   	  g.drawString("Press Esc to Exit",350,470);
+   	   	  g.drawString("Press Esc to Exit",350,420);
    	   	  g.setFont(f);
    	   	  
    	   	  //Added for testing purposes.
